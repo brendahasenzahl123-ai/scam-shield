@@ -320,17 +320,17 @@ export default function Profile() {
               <div className="flex-1 h-2 bg-muted rounded-full overflow-hidden">
                 <div
                   className="h-full bg-primary rounded-full transition-all"
-                  style={{ width: `${Math.min(100, (completedModules.length / 25) * 100)}%` }}
+                  style={{ width: `${Math.min(100, (completedModules.length / 6) * 100)}%` }}
                 />
               </div>
-              <span className="text-xs font-semibold">{completedModules.length}/25</span>
+              <span className="text-xs font-semibold">{completedModules.length}/6</span>
             </div>
             <p className="text-xs text-muted-foreground">
               {completedModules.length === 0
-                ? "Start with beginner modules in the Learn section."
-                : completedModules.length < 10
-                ? "Good start! Keep going to unlock advanced modules."
-                : "Excellent progress — you're a scam detection expert!"}
+                ? "Start with a topic in the Learn section."
+                : completedModules.length < 6
+                ? "Good start — keep going through the topics."
+                : "You've completed every topic — great work!"}
             </p>
           </CardContent>
         </Card>

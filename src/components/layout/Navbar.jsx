@@ -1,26 +1,20 @@
 import React, { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { Shield, Menu, X, Search, BookOpen, Users, BarChart3, Newspaper, GraduationCap, Home, Database, MapPin, ChevronDown, User, BookMarked, MessageCircle, Bell } from "lucide-react";
+import { Shield, Menu, X, Search, BookOpen, MessageCircle, BarChart3, Newspaper, User, BookMarked, ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { motion, AnimatePresence } from "framer-motion";
 
 const primaryNav = [
-  { to: "/", label: "Verify", icon: Search },
-  { to: "/community", label: "Community Reports", icon: MessageCircle },
-  { to: "/database", label: "Intelligence", icon: Users },
+  { to: "/", label: "Scan", icon: Search },
+  { to: "/community", label: "Community", icon: MessageCircle },
   { to: "/learn", label: "Learn", icon: BookOpen },
   { to: "/news", label: "Alerts", icon: Newspaper },
 ];
 
 const moreNav = [
-  { to: "/dashboard", label: "My Dashboard", icon: BarChart3 },
+  { to: "/dashboard", label: "My Activity", icon: BarChart3 },
   { to: "/profile", label: "My Profile", icon: User },
   { to: "/journal", label: "My Scam Journal", icon: BookMarked },
-  { to: "/notifications", label: "Alerts & Notifications", icon: Bell },
-  { to: "/students", label: "Student Safety Center", icon: GraduationCap },
-  { to: "/family", label: "Family Protection Center", icon: Home },
-  { to: "/hall-of-fame", label: "Scam Intelligence Archive", icon: Database },
-  { to: "/heat-map", label: "Scam Heat Map", icon: MapPin },
 ];
 
 export default function Navbar() {

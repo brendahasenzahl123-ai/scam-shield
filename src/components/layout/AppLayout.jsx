@@ -11,27 +11,15 @@ const ROOT_PATHS = ["/", "/community", "/learn", "/news", "/profile"];
 
 // Map sub-pages to a readable title and their parent tab
 const SUB_PAGE_TITLES = {
-  "/database": "Intelligence Hub",
-  "/dashboard": "My Dashboard",
+  "/dashboard": "My Activity",
   "/journal": "Scam Journal",
-  "/notifications": "Notifications",
-  "/students": "Student Safety Center",
-  "/family": "Family Protection Center",
-  "/hall-of-fame": "Scam Intelligence Archive",
-  "/heat-map": "Scam Heat Map",
   "/admin": "Admin",
 };
 
 // Which tab to go back to for each sub-page
 const BACK_TARGETS = {
-  "/database": "/community",
   "/dashboard": "/profile",
   "/journal": "/profile",
-  "/notifications": "/profile",
-  "/students": "/learn",
-  "/family": "/learn",
-  "/hall-of-fame": "/community",
-  "/heat-map": "/community",
   "/admin": "/",
 };
 
@@ -85,7 +73,7 @@ export default function AppLayout() {
       <footer className="hidden md:block border-t border-border/50 py-10">
         <div className="max-w-6xl mx-auto px-4 text-center">
           <p className="text-sm font-semibold mb-1">ScamShield</p>
-          <p className="text-xs text-muted-foreground mb-3">Consumer protection & digital literacy platform</p>
+          <p className="text-xs text-muted-foreground mb-3">Student-built scam awareness & reporting tool</p>
           <div className="flex flex-wrap justify-center gap-4 text-xs text-muted-foreground">
             <span>Report Fraud: reportfraud.ftc.gov</span>
             <span>·</span>

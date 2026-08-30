@@ -17,19 +17,13 @@ const Login = lazy(() => import('./pages/Login'));
 const Register = lazy(() => import('./pages/Register'));
 const ForgotPassword = lazy(() => import('./pages/ForgotPassword'));
 const ResetPassword = lazy(() => import('./pages/ResetPassword'));
-const Database = lazy(() => import('./pages/Database'));
 const Learn = lazy(() => import('./pages/Learn'));
 const News = lazy(() => import('./pages/News'));
 const Dashboard = lazy(() => import('./pages/Dashboard'));
 const Admin = lazy(() => import('./pages/Admin'));
-const StudentCenter = lazy(() => import('./pages/StudentCenter'));
-const FamilyCenter = lazy(() => import('./pages/FamilyCenter'));
-const HallOfFame = lazy(() => import('./pages/HallOfFame'));
-const HeatMap = lazy(() => import('./pages/HeatMap'));
 const CommunityFeed = lazy(() => import('./pages/CommunityFeed'));
 const Profile = lazy(() => import('./pages/Profile'));
 const Journal = lazy(() => import('./pages/Journal'));
-const Notifications = lazy(() => import('./pages/Notifications'));
 
 const PageLoader = () => (
   <div className="flex items-center justify-center h-48">
@@ -93,19 +87,13 @@ const AuthenticatedApp = () => {
       <Route path="/reset-password" element={<ErrorBoundary><Suspense fallback={<PageLoader />}><ResetPassword /></Suspense></ErrorBoundary>} />
       <Route element={<AppLayout />}>
         <Route path="/" element={<Suspense fallback={<PageLoader />}><PageTransition><Home /></PageTransition></Suspense>} />
-        <Route path="/database" element={<Suspense fallback={<PageLoader />}><PageTransition><Database /></PageTransition></Suspense>} />
         <Route path="/learn" element={<Suspense fallback={<PageLoader />}><PageTransition><Learn /></PageTransition></Suspense>} />
         <Route path="/news" element={<Suspense fallback={<PageLoader />}><PageTransition><News /></PageTransition></Suspense>} />
         <Route path="/dashboard" element={<Suspense fallback={<PageLoader />}><PageTransition><Dashboard /></PageTransition></Suspense>} />
         <Route path="/admin" element={<Suspense fallback={<PageLoader />}><PageTransition><Admin /></PageTransition></Suspense>} />
-        <Route path="/students" element={<Suspense fallback={<PageLoader />}><PageTransition><StudentCenter /></PageTransition></Suspense>} />
-        <Route path="/family" element={<Suspense fallback={<PageLoader />}><PageTransition><FamilyCenter /></PageTransition></Suspense>} />
-        <Route path="/hall-of-fame" element={<Suspense fallback={<PageLoader />}><PageTransition><HallOfFame /></PageTransition></Suspense>} />
-        <Route path="/heat-map" element={<Suspense fallback={<PageLoader />}><PageTransition><HeatMap /></PageTransition></Suspense>} />
         <Route path="/community" element={<Suspense fallback={<PageLoader />}><PageTransition><CommunityFeed /></PageTransition></Suspense>} />
         <Route path="/profile" element={<Suspense fallback={<PageLoader />}><PageTransition><Profile /></PageTransition></Suspense>} />
         <Route path="/journal" element={<Suspense fallback={<PageLoader />}><PageTransition><Journal /></PageTransition></Suspense>} />
-        <Route path="/notifications" element={<Suspense fallback={<PageLoader />}><PageTransition><Notifications /></PageTransition></Suspense>} />
       </Route>
       <Route path="*" element={<PageNotFound />} />
     </Routes>

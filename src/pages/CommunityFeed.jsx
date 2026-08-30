@@ -11,15 +11,12 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
-  Heart, ThumbsUp, MessageSquare, Bookmark, Flag, Share2, Search,
-  Filter, Users, Shield, AlertTriangle, CheckCircle2, TrendingUp, Plus
+  Heart, ThumbsUp, MessageSquare, Search, Users, Plus
 } from "lucide-react";
-import { Link } from "react-router-dom";
 import { formatDistanceToNow } from "date-fns";
 import PostDetailModal from "@/components/community/PostDetailModal";
 import PostMenu from "@/components/community/PostMenu";
 import ShareScamModal from "@/components/community/ShareScamModal";
-import { SEED_REPORTS } from "@/data/communityReports";
 
 const CATEGORY_COLORS = {
   education: "bg-blue-100 text-blue-700",
@@ -39,26 +36,15 @@ const CATEGORY_LABELS = {
   relationship: "Relationship", package_delivery: "Package & Delivery", other: "Other",
 };
 
-const VERIFICATION_CONFIG = {
-  verified_scam: { label: "Verified Scam", color: "bg-emerald-100 text-emerald-700", icon: "🟢" },
-  under_review: { label: "Under Review", color: "bg-amber-100 text-amber-700", icon: "🟡" },
-  emerging_threat: { label: "Emerging Threat", color: "bg-orange-100 text-orange-700", icon: "🟠" },
-  high_risk_active: { label: "High-Risk Active", color: "bg-red-100 text-red-700", icon: "🔴" },
-};
-
 const RISK_COLORS = { low: "text-emerald-600", moderate: "text-amber-600", high: "text-orange-600", extreme: "text-red-600" };
 
 function PostCard({ post, onSelect, onReaction, onDeleted }) {
   const [reacted, setReacted] = useState({});
-  const vc = VERIFICATION_CONFIG[post.verification_status] || VERIFICATION_CONFIG.under_review;
 
   const handleReact = async (type, field) => {
     if (reacted[type]) return;
     setReacted(r => ({ ...r, [type]: true }));
-    // Seed posts are local sample data — skip the DB write, keep the optimistic update only
-    if (!String(post.id).startsWith("seed-")) {
-      await base44.entities.CommunityPost.update(post.id, { [field]: (post[field] || 0) + 1 });
-    }
+    await base44.entities.CommunityPost.update(post.id, { [field]: (post[field] || 0) + 1 });
     onReaction?.(post.id, field);
   };
 
@@ -73,12 +59,11 @@ function PostCard({ post, onSelect, onReaction, onDeleted }) {
                 <Badge className={`text-[10px] border-0 ${CATEGORY_COLORS[post.category] || CATEGORY_COLORS.other}`}>
                   {CATEGORY_LABELS[post.category] || post.category}
                 </Badge>
-                <span className={`text-[10px] font-bold uppercase ${RISK_COLORS[post.risk_level]}`}>
-                  {post.risk_level} risk
-                </span>
-                <span className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-medium ${vc.color}`}>
-                  {vc.icon} {vc.label}
-                </span>
+                {post.risk_level && (
+                  <span className={`text-[10px] font-bold uppercase ${RISK_COLORS[post.risk_level]}`}>
+                    {post.risk_level} risk
+                  </span>
+                )}
               </div>
               <h3
                 className="font-semibold text-sm leading-snug cursor-pointer hover:text-primary transition-colors"
@@ -87,14 +72,6 @@ function PostCard({ post, onSelect, onReaction, onDeleted }) {
                 {post.title}
               </h3>
             </div>
-            {post.scam_likelihood != null && (
-              <div className="text-center shrink-0">
-                <div className={`text-lg font-bold ${post.scam_likelihood >= 70 ? "text-red-600" : post.scam_likelihood >= 40 ? "text-amber-600" : "text-emerald-600"}`}>
-                  {post.scam_likelihood}%
-                </div>
-                <div className="text-[9px] text-muted-foreground">AI confidence</div>
-              </div>
-            )}
             <PostMenu post={post} onDeleted={onDeleted} />
           </div>
 
@@ -129,30 +106,6 @@ function PostCard({ post, onSelect, onReaction, onDeleted }) {
             </div>
           )}
 
-          {/* Community Confidence */}
-          {post.confidence_score > 0 && (
-            <div className="bg-emerald-50 border border-emerald-100 rounded-xl p-3 mb-3">
-              <div className="flex items-center justify-between mb-2">
-                <span className="text-[11px] font-semibold text-emerald-700">Community Confidence</span>
-                <span className="text-lg font-bold text-emerald-700">{post.confidence_score}%</span>
-              </div>
-              <div className="space-y-1">
-                {[
-                  post.scam_likelihood >= 70 ? "✔ AI Analysis Confirmed" : null,
-                  post.helpful_votes >= 3 ? "✔ Multiple Community Reports" : null,
-                  post.verification_status === "verified_scam" ? "✔ Community Verification Votes" : null,
-                  post.red_flags?.length >= 2 ? "✔ Similar Scam Pattern Detected" : null,
-                ].filter(Boolean).map((item, i) => (
-                  <p key={i} className="text-[11px] text-emerald-700 font-medium">{item}</p>
-                ))}
-              </div>
-              <div className="flex gap-3 mt-2 pt-2 border-t border-emerald-200">
-                <span className="text-[10px] text-emerald-600">❤️ {post.helpful_votes || 0} Helpful</span>
-                <span className="text-[10px] text-emerald-600">👥 {post.received_too_count || 0} Also Received</span>
-              </div>
-            </div>
-          )}
-
           {/* Footer */}
           <div className="flex items-center justify-between pt-2 border-t border-border/50">
             <div className="flex items-center gap-0.5">
@@ -172,7 +125,7 @@ function PostCard({ post, onSelect, onReaction, onDeleted }) {
                 onClick={() => onSelect(post)}
                 className="flex items-center gap-1 px-2 py-1.5 rounded-lg text-xs text-muted-foreground hover:bg-muted transition-colors"
               >
-                <MessageSquare className="w-3.5 h-3.5" /> {post.comment_count || post.seedComments?.length || 0}
+                <MessageSquare className="w-3.5 h-3.5" /> {post.comment_count || 0}
               </button>
             </div>
             <div className="flex items-center gap-2 text-[10px] text-muted-foreground">
@@ -224,10 +177,9 @@ export default function CommunityFeed() {
 
   const { pullY, refreshing } = usePullToRefresh(() => refetch());
 
-  // Filter out blocked users' posts; merge seed data when DB is sparse
+  // Filter out blocked users' posts
   const blockedIds = new Set(blocks.map(b => b.blocked_id));
-  const allPosts = dbPosts.length >= 5 ? dbPosts : [...dbPosts, ...SEED_REPORTS];
-  const posts = allPosts.filter(p => !p.created_by_id || !blockedIds.has(p.created_by_id));
+  const posts = dbPosts.filter(p => !p.created_by_id || !blockedIds.has(p.created_by_id));
 
   const filtered = posts.filter(p => {
     const matchSearch = !search || p.title?.toLowerCase().includes(search.toLowerCase()) || p.ai_summary?.toLowerCase().includes(search.toLowerCase());
@@ -254,30 +206,13 @@ export default function CommunityFeed() {
         <div>
           <div className="flex items-center gap-2 mb-1">
             <Users className="w-5 h-5 text-primary" />
-            <h1 className="text-2xl font-heading font-bold">Community Intelligence</h1>
+            <h1 className="text-2xl font-heading font-bold">Community Reports</h1>
           </div>
-          <p className="text-sm text-muted-foreground">Real scam reports from community members — verified, voted on, and discussed to protect others</p>
+          <p className="text-sm text-muted-foreground">Scam reports shared by the community to help others stay safe</p>
         </div>
         <Button size="sm" className="gap-1.5 shrink-0" onClick={() => setShowShare(true)}>
           <Plus className="w-4 h-4" /> Share a Scam
         </Button>
-      </div>
-
-      {/* Stats bar */}
-      <div className="grid grid-cols-3 gap-3 mb-6">
-        {[
-          { icon: Shield, label: "Total Reports", value: posts.length + 1621 },
-          { icon: CheckCircle2, label: "Verified Scams", value: posts.filter(p => p.verification_status === "verified_scam").length + 847 },
-          { icon: TrendingUp, label: "High Risk Active", value: posts.filter(p => p.verification_status === "high_risk_active").length + 23 },
-        ].map(stat => (
-          <div key={stat.label} className="bg-card border border-border/50 rounded-xl p-3 flex items-center gap-3">
-            <stat.icon className="w-4 h-4 text-primary shrink-0" />
-            <div>
-              <p className="text-lg font-bold leading-none">{stat.value}</p>
-              <p className="text-[10px] text-muted-foreground mt-0.5">{stat.label}</p>
-            </div>
-          </div>
-        ))}
       </div>
 
       {/* Filters */}
@@ -315,7 +250,7 @@ export default function CommunityFeed() {
       ) : filtered.length === 0 ? (
         <div className="text-center py-20">
           <Users className="w-10 h-10 text-muted-foreground/30 mx-auto mb-3" />
-          <p className="font-semibold mb-1">No posts yet</p>
+          <p className="font-semibold mb-1">No reports yet</p>
           <p className="text-sm text-muted-foreground mb-4">Be the first to share a scam with the community</p>
           <Button size="sm" onClick={() => setShowShare(true)} className="gap-1.5">
             <Plus className="w-4 h-4" /> Share a Scam Report

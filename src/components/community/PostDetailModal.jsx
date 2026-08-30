@@ -54,9 +54,7 @@ export default function PostDetailModal({ post, onClose }) {
     setReacted(r => ({ ...r, [type]: true }));
     const updated = { [field]: (localPost[field] || 0) + 1 };
     setLocalPost(p => ({ ...p, ...updated }));
-    if (!String(post.id).startsWith("seed-")) {
-      await base44.entities.CommunityPost.update(post.id, updated);
-    }
+    await base44.entities.CommunityPost.update(post.id, updated);
   };
 
   const submitComment = async () => {
@@ -80,11 +78,9 @@ export default function PostDetailModal({ post, onClose }) {
         is_anonymous: isAnon,
         author_name: isAnon ? "Anonymous" : (user.full_name || "Community Member"),
       });
-      if (!String(post.id).startsWith("seed-")) {
-        await base44.entities.CommunityPost.update(post.id, {
-          comment_count: (localPost.comment_count || 0) + 1
-        });
-      }
+      await base44.entities.CommunityPost.update(post.id, {
+        comment_count: (localPost.comment_count || 0) + 1
+      });
       setCommentText("");
       refetch();
     } catch (err) {
