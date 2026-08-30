@@ -1,0 +1,31 @@
+{
+  "name": "Badge",
+  "type": "object",
+  "properties": {
+    "user_id": {
+      "type": "string",
+      "description": "User who earned this badge"
+    },
+    "badge_type": {
+      "type": "string",
+      "enum": [
+        "scam_spotter",
+        "scam_detective",
+        "cyber_safety",
+        "community_contributor",
+        "first_scan",
+        "ten_scans",
+        "educator"
+      ],
+      "description": "Type of badge earned"
+    },
+    "earned_date": {
+      "type": "string",
+      "format": "date"
+    }
+  },
+  "required": [
+    "user_id",
+    "badge_type"
+  ]
+}

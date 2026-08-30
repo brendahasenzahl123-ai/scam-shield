@@ -1,0 +1,107 @@
+{
+  "name": "CommunityPost",
+  "type": "object",
+  "properties": {
+    "title": {
+      "type": "string"
+    },
+    "category": {
+      "type": "string",
+      "enum": [
+        "education",
+        "employment",
+        "social_media",
+        "marketplace",
+        "financial",
+        "phishing",
+        "relationship",
+        "package_delivery",
+        "other"
+      ]
+    },
+    "risk_level": {
+      "type": "string",
+      "enum": [
+        "low",
+        "moderate",
+        "high",
+        "extreme"
+      ]
+    },
+    "ai_summary": {
+      "type": "string"
+    },
+    "red_flags": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "personal_story": {
+      "type": "string"
+    },
+    "advice": {
+      "type": "string"
+    },
+    "screenshot_url": {
+      "type": "string"
+    },
+    "is_anonymous": {
+      "type": "boolean",
+      "default": false
+    },
+    "author_name": {
+      "type": "string"
+    },
+    "visibility": {
+      "type": "string",
+      "enum": [
+        "public",
+        "private"
+      ],
+      "default": "public"
+    },
+    "scam_likelihood": {
+      "type": "number"
+    },
+    "helpful_votes": {
+      "type": "number",
+      "default": 0
+    },
+    "received_too_count": {
+      "type": "number",
+      "default": 0
+    },
+    "save_count": {
+      "type": "number",
+      "default": 0
+    },
+    "comment_count": {
+      "type": "number",
+      "default": 0
+    },
+    "is_flagged": {
+      "type": "boolean",
+      "default": false
+    },
+    "verification_status": {
+      "type": "string",
+      "enum": [
+        "verified_scam",
+        "under_review",
+        "emerging_threat",
+        "high_risk_active"
+      ],
+      "default": "under_review"
+    },
+    "confidence_score": {
+      "type": "number",
+      "default": 0
+    }
+  },
+  "required": [
+    "title",
+    "category",
+    "risk_level"
+  ]
+}

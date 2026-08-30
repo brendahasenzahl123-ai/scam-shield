@@ -1,0 +1,40 @@
+{
+  "name": "JournalEntry",
+  "type": "object",
+  "properties": {
+    "scan_result_id": {
+      "type": "string"
+    },
+    "title": {
+      "type": "string"
+    },
+    "folder": {
+      "type": "string",
+      "enum": [
+        "confirmed_scams",
+        "suspicious",
+        "safe",
+        "reported_to_authorities",
+        "blocked_senders",
+        "saved_for_later"
+      ],
+      "default": "saved_for_later"
+    },
+    "notes": {
+      "type": "string"
+    },
+    "risk_level": {
+      "type": "string"
+    },
+    "category": {
+      "type": "string"
+    },
+    "summary": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "title",
+    "folder"
+  ]
+}

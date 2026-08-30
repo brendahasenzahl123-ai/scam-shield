@@ -1,0 +1,26 @@
+{
+  "properties": {
+    "role": {
+      "type": "string",
+      "description": "The role of the user in the app",
+      "enum": [
+        "admin",
+        "user"
+      ]
+    },
+    "suspended": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether the user is suspended from posting content"
+    },
+    "suspension_reason": {
+      "type": "string",
+      "description": "Reason for suspension if applicable"
+    }
+  },
+  "required": [
+    "role"
+  ],
+  "name": "User",
+  "type": "object"
+}

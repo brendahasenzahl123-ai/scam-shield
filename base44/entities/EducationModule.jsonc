@@ -1,0 +1,55 @@
+{
+  "name": "EducationModule",
+  "type": "object",
+  "properties": {
+    "title": {
+      "type": "string"
+    },
+    "slug": {
+      "type": "string",
+      "description": "URL-friendly identifier"
+    },
+    "category": {
+      "type": "string",
+      "enum": [
+        "tactics",
+        "phishing",
+        "scholarships",
+        "internships",
+        "social_media",
+        "romance",
+        "ai_scams",
+        "general"
+      ]
+    },
+    "content": {
+      "type": "string",
+      "description": "Markdown content for the module"
+    },
+    "difficulty": {
+      "type": "string",
+      "enum": [
+        "beginner",
+        "intermediate",
+        "advanced"
+      ]
+    },
+    "estimated_minutes": {
+      "type": "number"
+    },
+    "icon": {
+      "type": "string",
+      "description": "Icon name for display"
+    },
+    "order": {
+      "type": "number",
+      "description": "Display order"
+    }
+  },
+  "required": [
+    "title",
+    "slug",
+    "category",
+    "content"
+  ]
+}

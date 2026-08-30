@@ -1,0 +1,86 @@
+{
+  "name": "ScanResult",
+  "type": "object",
+  "properties": {
+    "input_type": {
+      "type": "string",
+      "enum": [
+        "text",
+        "image",
+        "link"
+      ],
+      "description": "Type of input analyzed"
+    },
+    "input_content": {
+      "type": "string",
+      "description": "The text or link submitted for analysis"
+    },
+    "image_url": {
+      "type": "string",
+      "description": "URL of uploaded screenshot if applicable"
+    },
+    "scam_likelihood": {
+      "type": "number",
+      "description": "Scam likelihood percentage 0-100"
+    },
+    "risk_level": {
+      "type": "string",
+      "enum": [
+        "low",
+        "moderate",
+        "high",
+        "extreme"
+      ],
+      "description": "Overall risk level"
+    },
+    "red_flags": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "List of red flags detected"
+    },
+    "explanation": {
+      "type": "string",
+      "description": "Plain-English explanation of why content is suspicious"
+    },
+    "why_flagged": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Specific reasons why the content was flagged"
+    },
+    "recommended_actions": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "List of recommended actions"
+    },
+    "categories": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Scam categories matched"
+    },
+    "similar_pattern_count": {
+      "type": "number",
+      "description": "Estimated number of similar scams in existence"
+    },
+    "target_demographic": {
+      "type": "string",
+      "description": "Who scammers typically target with this type of scam"
+    },
+    "is_bookmarked": {
+      "type": "boolean",
+      "default": false
+    }
+  },
+  "required": [
+    "input_type",
+    "scam_likelihood",
+    "risk_level"
+  ]
+}

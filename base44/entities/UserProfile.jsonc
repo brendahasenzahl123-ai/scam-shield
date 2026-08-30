@@ -1,0 +1,47 @@
+{
+  "name": "UserProfile",
+  "type": "object",
+  "properties": {
+    "user_id": {
+      "type": "string"
+    },
+    "display_name": {
+      "type": "string"
+    },
+    "bio": {
+      "type": "string"
+    },
+    "avatar_color": {
+      "type": "string"
+    },
+    "scamshield_score": {
+      "type": "number",
+      "default": 0
+    },
+    "reputation": {
+      "type": "number",
+      "default": 0
+    },
+    "badges": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "saved_post_ids": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "completed_modules": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "required": [
+    "user_id"
+  ]
+}

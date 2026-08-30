@@ -1,0 +1,110 @@
+{
+  "name": "ScamReport",
+  "type": "object",
+  "properties": {
+    "title": {
+      "type": "string",
+      "description": "Short title for the scam report"
+    },
+    "description": {
+      "type": "string",
+      "description": "Detailed description of the scam"
+    },
+    "category": {
+      "type": "string",
+      "enum": [
+        "education",
+        "employment",
+        "social_media",
+        "marketplace",
+        "financial",
+        "phishing",
+        "relationship",
+        "package_delivery",
+        "other"
+      ],
+      "description": "Primary scam category"
+    },
+    "screenshot_url": {
+      "type": "string",
+      "description": "URL of uploaded screenshot"
+    },
+    "scam_tactics": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Tactics used in this scam"
+    },
+    "risk_level": {
+      "type": "string",
+      "enum": [
+        "low",
+        "moderate",
+        "high",
+        "extreme"
+      ]
+    },
+    "date_encountered": {
+      "type": "string",
+      "format": "date"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "pending",
+        "approved",
+        "rejected",
+        "featured"
+      ],
+      "default": "pending",
+      "description": "Moderation status"
+    },
+    "is_trending": {
+      "type": "boolean",
+      "default": false
+    },
+    "view_count": {
+      "type": "number",
+      "default": 0
+    },
+    "votes_confirmed": {
+      "type": "number",
+      "default": 0,
+      "description": "Votes: Confirmed Scam"
+    },
+    "votes_likely": {
+      "type": "number",
+      "default": 0,
+      "description": "Votes: Likely Scam"
+    },
+    "votes_suspicious": {
+      "type": "number",
+      "default": 0,
+      "description": "Votes: Suspicious"
+    },
+    "votes_needs_evidence": {
+      "type": "number",
+      "default": 0,
+      "description": "Votes: Needs More Evidence"
+    },
+    "verification_status": {
+      "type": "string",
+      "enum": [
+        "verified_scam",
+        "under_review",
+        "high_risk_active"
+      ],
+      "description": "Community verification status"
+    },
+    "confidence_score": {
+      "type": "number",
+      "description": "Community confidence score 0-100"
+    }
+  },
+  "required": [
+    "title",
+    "description",
+    "category"
+  ]
+}

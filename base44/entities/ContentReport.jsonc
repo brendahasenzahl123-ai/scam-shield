@@ -1,0 +1,92 @@
+{
+  "name": "ContentReport",
+  "type": "object",
+  "properties": {
+    "content_type": {
+      "type": "string",
+      "enum": [
+        "community_post",
+        "comment",
+        "scam_report"
+      ],
+      "description": "Type of reported content"
+    },
+    "content_id": {
+      "type": "string",
+      "description": "ID of the reported content record"
+    },
+    "content_title": {
+      "type": "string",
+      "description": "Title or snippet of reported content for admin display"
+    },
+    "content_snapshot": {
+      "type": "string",
+      "description": "Full snapshot of the reported content at time of report"
+    },
+    "reported_user_id": {
+      "type": "string",
+      "description": "User who created the reported content"
+    },
+    "reported_user_name": {
+      "type": "string",
+      "description": "Display name of reported user"
+    },
+    "reporting_user_id": {
+      "type": "string",
+      "description": "User who filed the report"
+    },
+    "reporting_user_name": {
+      "type": "string",
+      "description": "Display name of reporting user"
+    },
+    "reason": {
+      "type": "string",
+      "enum": [
+        "harassment",
+        "hate_speech",
+        "threats",
+        "sexual",
+        "scam_fraud",
+        "spam",
+        "misinformation",
+        "other"
+      ],
+      "description": "Reason for reporting"
+    },
+    "explanation": {
+      "type": "string",
+      "description": "Optional additional explanation from reporter"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "pending",
+        "reviewed",
+        "removed",
+        "dismissed"
+      ],
+      "default": "pending",
+      "description": "Moderation status"
+    },
+    "email_notification_status": {
+      "type": "string",
+      "enum": [
+        "pending",
+        "sent",
+        "failed"
+      ],
+      "default": "pending",
+      "description": "Status of the moderation-team email notification"
+    },
+    "email_error": {
+      "type": "string",
+      "default": "",
+      "description": "Error message if the notification email failed to send"
+    }
+  },
+  "required": [
+    "content_type",
+    "content_id",
+    "reason"
+  ]
+}
