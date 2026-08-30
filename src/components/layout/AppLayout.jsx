@@ -73,14 +73,7 @@ export default function AppLayout() {
       <footer className="hidden md:block border-t border-border/50 py-10">
         <div className="max-w-6xl mx-auto px-4 text-center">
           <p className="text-sm font-semibold mb-1">ScamShield</p>
-          <p className="text-xs text-muted-foreground mb-3">Student-built scam awareness & reporting tool</p>
-          <div className="flex flex-wrap justify-center gap-4 text-xs text-muted-foreground">
-            <span>Report Fraud: reportfraud.ftc.gov</span>
-            <span>·</span>
-            <span>FBI IC3: ic3.gov</span>
-            <span>·</span>
-            <span>Student Aid: studentaid.gov</span>
-          </div>
+          <p className="text-xs text-muted-foreground">Student-built scam awareness & reporting tool</p>
         </div>
       </footer>
       <OfflineBanner />
