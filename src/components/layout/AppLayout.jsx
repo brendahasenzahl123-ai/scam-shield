@@ -70,12 +70,6 @@ export default function AppLayout() {
           <Outlet />
         </ErrorBoundary>
       </main>
-      <footer className="hidden md:block border-t border-border/50 py-10">
-        <div className="max-w-6xl mx-auto px-4 text-center">
-          <p className="text-sm font-semibold mb-1">ScamShield</p>
-          <p className="text-xs text-muted-foreground">Student-built scam awareness & reporting tool</p>
-        </div>
-      </footer>
       <OfflineBanner />
       <BottomTabBar />
     </div>

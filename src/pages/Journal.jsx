@@ -13,13 +13,13 @@ import { formatDistanceToNow } from "date-fns";
 import RiskBadge from "@/components/scan/RiskBadge";
 
 const FOLDERS = [
-  { id: "all", label: "All Entries", icon: BookOpen, color: "text-primary" },
-  { id: "confirmed_scams", label: "Confirmed Scams", icon: AlertTriangle, color: "text-red-600" },
-  { id: "suspicious", label: "Suspicious Messages", icon: Shield, color: "text-amber-600" },
-  { id: "safe", label: "Safe Messages", icon: CheckCircle2, color: "text-emerald-600" },
-  { id: "reported_to_authorities", label: "Reported to Authorities", icon: Flag, color: "text-blue-600" },
-  { id: "blocked_senders", label: "Blocked Senders", icon: Ban, color: "text-rose-600" },
-  { id: "saved_for_later", label: "Saved for Later", icon: Bookmark, color: "text-purple-600" },
+  { id: "all", label: "All", icon: BookOpen },
+  { id: "confirmed_scams", label: "Confirmed Scams", icon: AlertTriangle },
+  { id: "suspicious", label: "Suspicious Messages", icon: Shield },
+  { id: "safe", label: "Safe Messages", icon: CheckCircle2 },
+  { id: "reported_to_authorities", label: "Reported to Authorities", icon: Flag },
+  { id: "blocked_senders", label: "Blocked Senders", icon: Ban },
+  { id: "saved_for_later", label: "Saved for Later", icon: Bookmark },
 ];
 
 export default function Journal() {
@@ -76,21 +76,21 @@ export default function Journal() {
           <Lock className="w-5 h-5 text-primary" />
           <h1 className="text-2xl font-heading font-bold">My Scam Journal</h1>
         </div>
-        <p className="text-sm text-muted-foreground">Private — only you can see this. Organize your scam analyses into folders.</p>
+        <p className="text-sm text-muted-foreground">Saved scam analyses, organized by category.</p>
       </div>
 
-      <div className="flex gap-5 flex-col sm:flex-row">
+      <div className="flex flex-col sm:flex-row">
         {/* Sidebar */}
-        <div className="sm:w-48 shrink-0">
+        <div className="sm:w-40 shrink-0 sm:border-r sm:border-border sm:pr-4 pb-4 border-b sm:border-b-0">
           <div className="space-y-0.5">
             {FOLDERS.map(f => (
               <button
                 key={f.id}
                 onClick={() => setActiveFolder(f.id)}
-                className={`w-full flex items-center justify-between gap-2 px-3 py-2.5 rounded-xl text-sm transition-colors text-left ${activeFolder === f.id ? "bg-primary/10 text-primary font-medium" : "text-muted-foreground hover:bg-muted"}`}
+                className={`w-full flex items-center justify-between gap-2 px-3 py-2 rounded-md text-sm transition-colors text-left ${activeFolder === f.id ? "bg-primary/10 text-primary font-medium" : "text-muted-foreground hover:bg-muted"}`}
               >
                 <span className="flex items-center gap-2">
-                  <f.icon className={`w-4 h-4 shrink-0 ${activeFolder === f.id ? "text-primary" : f.color}`} />
+                  <f.icon className={`w-4 h-4 shrink-0 ${activeFolder === f.id ? "text-primary" : "text-muted-foreground"}`} />
                   <span className="text-xs">{f.label}</span>
                 </span>
                 {f.id !== "all" && folderCounts[f.id] ? (
@@ -102,16 +102,16 @@ export default function Journal() {
         </div>
 
         {/* Main */}
-        <div className="flex-1 min-w-0">
+        <div className="flex-1 min-w-0 sm:pl-4 pt-4 sm:pt-0">
           {/* Add from bookmarked scans */}
           {bookmarkedScans.length > 0 && (
-            <div className="bg-primary/5 border border-primary/10 rounded-xl p-4 mb-4">
+            <div className="border rounded-md p-4 mb-4">
               <p className="text-xs font-semibold mb-2 flex items-center gap-1.5">
                 <Plus className="w-3.5 h-3.5 text-primary" /> {bookmarkedScans.length} saved scan{bookmarkedScans.length > 1 ? "s" : ""} not yet in journal
               </p>
               <div className="space-y-2">
                 {bookmarkedScans.slice(0, 3).map(scan => (
-                  <div key={scan.id} className="flex items-center justify-between gap-2 bg-white rounded-lg px-3 py-2 border border-border/50">
+                  <div key={scan.id} className="flex items-center justify-between gap-2 rounded-md px-3 py-2 border border-border">
                     <div className="min-w-0">
                       <p className="text-xs font-medium truncate">{scan.input_content?.slice(0, 60) || "Scanned content"}</p>
                       <p className="text-[10px] text-muted-foreground capitalize">{scan.risk_level} risk</p>
@@ -127,13 +127,12 @@ export default function Journal() {
 
           {isLoading ? (
             <div className="space-y-3">
-              {[1,2,3].map(i => <div key={i} className="h-20 bg-muted/40 rounded-xl animate-pulse" />)}
+              {[1,2,3].map(i => <div key={i} className="h-20 bg-muted/40 rounded-md animate-pulse" />)}
             </div>
           ) : filtered.length === 0 ? (
-            <div className="text-center py-16">
-              <FolderOpen className="w-10 h-10 text-muted-foreground/30 mx-auto mb-3" />
-              <p className="font-semibold text-sm mb-1">This folder is empty</p>
-              <p className="text-xs text-muted-foreground">Bookmark scans from your analysis results to add them here.</p>
+            <div className="py-6">
+              <p className="font-semibold text-sm mb-1">No saved results</p>
+              <p className="text-xs text-muted-foreground">Save an analysis to view it here.</p>
             </div>
           ) : (
             <div className="space-y-3">
@@ -141,13 +140,13 @@ export default function Journal() {
                 const folder = FOLDERS.find(f => f.id === entry.folder);
                 return (
                   <motion.div key={entry.id} initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
-                    <Card className="border-0 shadow-sm hover:shadow-md transition-all">
+                    <Card className="border shadow-sm">
                       <CardContent className="p-4">
                         <div className="flex items-start justify-between gap-3">
                           <div className="flex-1 min-w-0">
                             <div className="flex items-center gap-2 mb-1 flex-wrap">
                               {folder && (
-                                <span className={`text-[10px] font-medium flex items-center gap-1 ${folder.color}`}>
+                                <span className="text-[10px] font-medium flex items-center gap-1 text-muted-foreground">
                                   <folder.icon className="w-3 h-3" /> {folder.label}
                                 </span>
                               )}
@@ -156,7 +155,7 @@ export default function Journal() {
                             <p className="text-sm font-medium leading-snug">{entry.title}</p>
                             {entry.summary && <p className="text-xs text-muted-foreground mt-1 line-clamp-2">{entry.summary}</p>}
                             {entry.notes && (
-                              <div className="mt-2 bg-muted/40 rounded-lg px-3 py-2">
+                              <div className="mt-2 bg-muted/40 rounded-md px-3 py-2">
                                 <p className="text-xs italic text-muted-foreground">{entry.notes}</p>
                               </div>
                             )}
@@ -167,7 +166,7 @@ export default function Journal() {
                           </div>
                           <button
                             onClick={() => deleteEntry(entry.id)}
-                            className="p-1.5 rounded-lg hover:bg-red-50 text-muted-foreground hover:text-red-500 transition-colors shrink-0"
+                            className="p-1.5 rounded-md hover:bg-muted text-muted-foreground hover:text-foreground transition-colors shrink-0"
                           >
                             <Trash2 className="w-4 h-4" />
                           </button>
