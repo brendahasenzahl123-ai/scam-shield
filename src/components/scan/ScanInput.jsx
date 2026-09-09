@@ -49,7 +49,7 @@ export default function ScanInput({ onAnalyze, isAnalyzing, initialTab, initialT
     (tab === "image" && imageFile);
 
   return (
-    <Card className="border-0 shadow-xl shadow-black/5">
+    <Card className="border shadow-sm">
       <CardContent className="p-5">
         <Tabs value={tab} onValueChange={setTab}>
           <TabsList className="grid grid-cols-3 mb-4 bg-muted/60">
@@ -151,7 +151,7 @@ export default function ScanInput({ onAnalyze, isAnalyzing, initialTab, initialT
         <Button
           onClick={handleSubmit}
           disabled={!canSubmit || isAnalyzing}
-          className="w-full mt-4 h-11 font-semibold shadow-lg shadow-primary/20"
+          className="w-full mt-4 h-11 font-semibold"
         >
           {isAnalyzing ? (
             <>

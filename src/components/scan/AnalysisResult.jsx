@@ -82,7 +82,7 @@ export default function AnalysisResult({ result, onBookmark, onReset }) {
       </div>
 
       {/* Score + Risk Card */}
-      <Card className={`border-0 shadow-xl shadow-black/5 border-l-4 ${borderColor}`}>
+      <Card className={`border shadow-sm border-l-4 ${borderColor}`}>
         <CardContent className="p-6">
           <div className="flex items-center justify-between mb-4">
             <div>
@@ -111,7 +111,7 @@ export default function AnalysisResult({ result, onBookmark, onReset }) {
 
       {/* Why We Flagged This — KEY SECTION */}
       {result.explanation && (
-        <Card className="border-0 shadow-lg shadow-black/5">
+        <Card className="border shadow-sm">
           <CardHeader className="pb-3 pt-5 px-5">
             <CardTitle className="text-sm font-semibold flex items-center gap-2">
               <div className="w-7 h-7 rounded-lg bg-primary/10 flex items-center justify-center">
@@ -141,7 +141,7 @@ export default function AnalysisResult({ result, onBookmark, onReset }) {
 
       {/* Red Flags */}
       {result.red_flags?.length > 0 && (
-        <Card className="border-0 shadow-lg shadow-black/5">
+        <Card className="border shadow-sm">
           <CardHeader className="pb-3 pt-5 px-5">
             <CardTitle className="text-sm font-semibold flex items-center gap-2">
               <div className="w-7 h-7 rounded-lg bg-red-50 flex items-center justify-center">
@@ -174,7 +174,7 @@ export default function AnalysisResult({ result, onBookmark, onReset }) {
 
       {/* Similar Reports / Pattern Matching */}
       {result.similar_pattern_count > 0 && (
-        <Card className="border-0 shadow-lg shadow-black/5 bg-amber-50/50 dark:bg-amber-950/10">
+        <Card className="border shadow-sm">
           <CardContent className="p-5">
             <div className="flex items-start gap-3">
               <div className="w-9 h-9 rounded-xl bg-amber-100 flex items-center justify-center shrink-0">
@@ -205,7 +205,7 @@ export default function AnalysisResult({ result, onBookmark, onReset }) {
 
       {/* Recommended Actions */}
       {result.recommended_actions?.length > 0 && (
-        <Card className={`border-0 shadow-lg shadow-black/5 ${isHighRisk ? "bg-red-50/50 dark:bg-red-950/10" : "bg-primary/5"}`}>
+        <Card className={`border shadow-sm ${isHighRisk ? "border-l-4 border-l-red-500" : "border-l-4 border-l-primary"}`}>
           <CardHeader className="pb-3 pt-5 px-5">
             <CardTitle className="text-sm font-semibold flex items-center gap-2">
               <div className={`w-7 h-7 rounded-lg flex items-center justify-center ${isHighRisk ? "bg-red-100" : "bg-primary/10"}`}>
@@ -234,7 +234,7 @@ export default function AnalysisResult({ result, onBookmark, onReset }) {
 
       {/* Low risk reassurance */}
       {(result.risk_level === "low") && (
-        <Card className="border-0 shadow-lg shadow-black/5 bg-emerald-50/50 dark:bg-emerald-950/10">
+        <Card className="border shadow-sm">
           <CardContent className="p-5 flex items-center gap-3">
             <div className="w-9 h-9 rounded-xl bg-emerald-100 flex items-center justify-center shrink-0">
               <ShieldCheck className="w-5 h-5 text-emerald-600" />

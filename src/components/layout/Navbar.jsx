@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Shield, Menu, X, Search, BookOpen, MessageCircle, BarChart3, Newspaper, User, BookMarked, ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { motion, AnimatePresence } from "framer-motion";
+import { AnimatePresence } from "framer-motion";
 
 const primaryNav = [
   { to: "/", label: "Scan", icon: Search },
@@ -26,14 +26,14 @@ export default function Navbar() {
 
   return (
     <>
-      <nav className="hidden md:block sticky top-0 z-50 glass border-b border-border/50">
+      <nav className="hidden md:block sticky top-0 z-50 bg-card border-b border-border">
         <div className="max-w-6xl mx-auto px-4">
-          <div className="flex items-center justify-between h-16">
-            <Link to="/" className="flex items-center gap-2.5 group shrink-0">
-              <div className="w-9 h-9 rounded-xl bg-primary flex items-center justify-center shadow-lg shadow-primary/25 group-hover:shadow-primary/40 transition-shadow">
-                <Shield className="w-5 h-5 text-primary-foreground" />
+          <div className="flex items-center justify-between h-14">
+            <Link to="/" className="flex items-center gap-2 shrink-0">
+              <div className="w-7 h-7 rounded-md bg-primary flex items-center justify-center">
+                <Shield className="w-4 h-4 text-primary-foreground" />
               </div>
-              <span className="font-heading font-bold text-lg tracking-tight">
+              <span className="font-bold text-base tracking-tight">
                 Scam<span className="text-primary">Shield</span>
               </span>
             </Link>
@@ -67,11 +67,11 @@ export default function Navbar() {
                 </Button>
                 <AnimatePresence>
                   {moreOpen && (
-                    <motion.div
+                    <div
                       initial={{ opacity: 0, y: -5 }}
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0, y: -5 }}
-                      className="absolute right-0 top-full mt-1 w-52 bg-card border border-border rounded-xl shadow-xl py-1 z-50"
+                      className="absolute right-0 top-full mt-1 w-52 bg-card border border-border rounded-md shadow-md py-1 z-50"
                     >
                       {moreNav.map(link => {
                         const isActive = location.pathname === link.to;
@@ -84,7 +84,7 @@ export default function Navbar() {
                           </Link>
                         );
                       })}
-                    </motion.div>
+                    </div>
                   )}
                 </AnimatePresence>
               </div>
@@ -102,18 +102,18 @@ export default function Navbar() {
 
       <AnimatePresence>
         {mobileOpen && (
-          <motion.div
+          <div
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
-            className="fixed inset-x-0 top-16 z-40 glass border-b border-border/50 md:hidden max-h-[80vh] overflow-y-auto"
+            className="fixed inset-x-0 top-14 z-40 bg-card border-b border-border md:hidden max-h-[80vh] overflow-y-auto"
           >
             <div className="p-3 space-y-0.5">
               {[...primaryNav, ...moreNav].map((link) => {
                 const isActive = location.pathname === link.to;
                 return (
                   <Link key={link.to} to={link.to} onClick={() => setMobileOpen(false)}>
-                    <div className={`flex items-center gap-3 px-4 py-3 rounded-xl transition-colors ${isActive ? "bg-primary/10 text-primary" : "text-muted-foreground hover:bg-muted"}`}>
+                    <div className={`flex items-center gap-3 px-4 py-3 rounded-md transition-colors ${isActive ? "bg-primary/10 text-primary" : "text-muted-foreground hover:bg-muted"}`}>
                       <link.icon className="w-4 h-4" />
                       <span className="font-medium text-sm">{link.label}</span>
                     </div>
@@ -121,7 +121,7 @@ export default function Navbar() {
                 );
               })}
             </div>
-          </motion.div>
+          </div>
         )}
       </AnimatePresence>
     </>

@@ -40,12 +40,12 @@ export default function AppLayout() {
 
       {/* Mobile brand header — root tab screens */}
       {isRoot && (
-        <div className="md:hidden sticky top-0 z-40 glass border-b border-border/50 flex items-center px-4 h-14">
+        <div className="md:hidden sticky top-0 z-40 bg-card border-b border-border flex items-center px-4 h-14">
           <Link to="/" className="flex items-center gap-2">
-            <div className="w-8 h-8 rounded-xl bg-primary flex items-center justify-center shadow-md">
+            <div className="w-7 h-7 rounded-md bg-primary flex items-center justify-center">
               <Shield className="w-4 h-4 text-primary-foreground" />
             </div>
-            <span className="font-heading font-bold text-base tracking-tight">
+            <span className="font-bold text-base tracking-tight">
               Scam<span className="text-primary">Shield</span>
             </span>
           </Link>
@@ -54,7 +54,7 @@ export default function AppLayout() {
 
       {/* Mobile back header — sub-pages */}
       {!isRoot && subTitle && (
-        <div className="md:hidden sticky top-0 z-40 glass border-b border-border/50 flex items-center gap-2 px-2 h-14">
+        <div className="md:hidden sticky top-0 z-40 bg-card border-b border-border flex items-center gap-2 px-2 h-14">
           <button
             onClick={() => typeof backTarget === "string" ? navigate(backTarget) : navigate(-1)}
             className="flex items-center gap-0.5 px-2 py-2 text-primary font-semibold text-sm"

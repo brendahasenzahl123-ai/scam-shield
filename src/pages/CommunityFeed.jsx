@@ -5,30 +5,13 @@ import { useAuth } from "@/lib/AuthContext";
 import usePullToRefresh from "@/hooks/usePullToRefresh";
 import PullToRefreshIndicator from "@/components/ui/PullToRefreshIndicator";
 import MobileSelect from "@/components/ui/MobileSelect";
-import { motion } from "framer-motion";
-import { Card, CardContent } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
+import { Heart, ThumbsUp, MessageSquare, Search, Plus } from "lucide-react";
 import { Input } from "@/components/ui/input";
-import {
-  Heart, ThumbsUp, MessageSquare, Search, Users, Plus
-} from "lucide-react";
+import { Button } from "@/components/ui/button";
 import { formatDistanceToNow } from "date-fns";
 import PostDetailModal from "@/components/community/PostDetailModal";
 import PostMenu from "@/components/community/PostMenu";
 import ShareScamModal from "@/components/community/ShareScamModal";
-
-const CATEGORY_COLORS = {
-  education: "bg-blue-100 text-blue-700",
-  employment: "bg-purple-100 text-purple-700",
-  social_media: "bg-pink-100 text-pink-700",
-  marketplace: "bg-amber-100 text-amber-700",
-  financial: "bg-emerald-100 text-emerald-700",
-  phishing: "bg-red-100 text-red-700",
-  relationship: "bg-rose-100 text-rose-700",
-  package_delivery: "bg-orange-100 text-orange-700",
-  other: "bg-gray-100 text-gray-700",
-};
 
 const CATEGORY_LABELS = {
   education: "Education", employment: "Employment", social_media: "Social Media",
@@ -36,7 +19,7 @@ const CATEGORY_LABELS = {
   relationship: "Relationship", package_delivery: "Package & Delivery", other: "Other",
 };
 
-const RISK_COLORS = { low: "text-emerald-600", moderate: "text-amber-600", high: "text-orange-600", extreme: "text-red-600" };
+const RISK_LABELS = { low: "Low risk", moderate: "Moderate risk", high: "High risk", extreme: "Extreme risk" };
 
 function PostCard({ post, onSelect, onReaction, onDeleted }) {
   const [reacted, setReacted] = useState({});
@@ -49,94 +32,83 @@ function PostCard({ post, onSelect, onReaction, onDeleted }) {
   };
 
   return (
-    <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
-      <Card className="border-0 shadow-md shadow-black/5 hover:shadow-lg transition-all">
-        <CardContent className="p-5">
-          {/* Header */}
-          <div className="flex items-start justify-between gap-3 mb-3">
-            <div className="flex-1 min-w-0">
-              <div className="flex flex-wrap items-center gap-1.5 mb-1.5">
-                <Badge className={`text-[10px] border-0 ${CATEGORY_COLORS[post.category] || CATEGORY_COLORS.other}`}>
-                  {CATEGORY_LABELS[post.category] || post.category}
-                </Badge>
-                {post.risk_level && (
-                  <span className={`text-[10px] font-bold uppercase ${RISK_COLORS[post.risk_level]}`}>
-                    {post.risk_level} risk
-                  </span>
-                )}
-              </div>
-              <h3
-                className="font-semibold text-sm leading-snug cursor-pointer hover:text-primary transition-colors"
-                onClick={() => onSelect(post)}
-              >
-                {post.title}
-              </h3>
-            </div>
-            <PostMenu post={post} onDeleted={onDeleted} />
+    <div className="border rounded-md p-4">
+      <div className="flex items-start justify-between gap-2 mb-2">
+        <div className="flex-1 min-w-0">
+          <div className="flex flex-wrap gap-2 mb-1 text-xs text-muted-foreground">
+            <span>{CATEGORY_LABELS[post.category] || post.category}</span>
+            {post.risk_level && (
+              <>
+                <span>·</span>
+                <span>{RISK_LABELS[post.risk_level] || post.risk_level}</span>
+              </>
+            )}
           </div>
+          <h3
+            className="font-semibold text-sm leading-snug cursor-pointer hover:text-primary transition-colors"
+            onClick={() => onSelect(post)}
+          >
+            {post.title}
+          </h3>
+        </div>
+        <PostMenu post={post} onDeleted={onDeleted} />
+      </div>
 
-          {/* AI Summary */}
-          {post.ai_summary && (
-            <p className="text-xs text-muted-foreground leading-relaxed mb-3 line-clamp-2">{post.ai_summary}</p>
+      {post.ai_summary && (
+        <p className="text-sm text-muted-foreground leading-relaxed mb-3 line-clamp-2">{post.ai_summary}</p>
+      )}
+
+      {post.personal_story && (
+        <p className="text-sm text-foreground leading-relaxed mb-3 line-clamp-2 italic border-l-2 border-border pl-3">"{post.personal_story}"</p>
+      )}
+
+      {post.screenshot_url && (
+        <div className="rounded-md overflow-hidden mb-3 bg-muted max-h-40">
+          <img src={post.screenshot_url} alt="" className="w-full h-full object-cover" />
+        </div>
+      )}
+
+      {post.red_flags?.length > 0 && (
+        <ul className="space-y-1 mb-3">
+          {post.red_flags.slice(0, 3).map((f, i) => (
+            <li key={i} className="flex items-start gap-1.5 text-xs text-muted-foreground">
+              <span className="shrink-0">•</span><span>{f}</span>
+            </li>
+          ))}
+          {post.red_flags.length > 3 && (
+            <li className="text-xs text-muted-foreground">+{post.red_flags.length - 3} more</li>
           )}
+        </ul>
+      )}
 
-          {/* Personal story snippet */}
-          {post.personal_story && (
-            <div className="bg-muted/40 rounded-lg p-3 mb-3 border-l-2 border-primary/30">
-              <p className="text-xs text-foreground leading-relaxed line-clamp-2 italic">"{post.personal_story}"</p>
-            </div>
-          )}
-
-          {/* Screenshot */}
-          {post.screenshot_url && (
-            <div className="rounded-lg overflow-hidden mb-3 bg-muted aspect-video max-h-32">
-              <img src={post.screenshot_url} alt="" className="w-full h-full object-cover" />
-            </div>
-          )}
-
-          {/* Red flags preview */}
-          {post.red_flags?.length > 0 && (
-            <div className="flex flex-wrap gap-1 mb-3">
-              {post.red_flags.slice(0, 3).map((f, i) => (
-                <span key={i} className="text-[10px] bg-red-50 text-red-600 px-2 py-0.5 rounded-full border border-red-100">🚩 {f}</span>
-              ))}
-              {post.red_flags.length > 3 && (
-                <span className="text-[10px] text-muted-foreground">+{post.red_flags.length - 3} more</span>
-              )}
-            </div>
-          )}
-
-          {/* Footer */}
-          <div className="flex items-center justify-between pt-2 border-t border-border/50">
-            <div className="flex items-center gap-0.5">
-              <button
-                onClick={() => handleReact("helpful", "helpful_votes")}
-                className={`flex items-center gap-1 px-2 py-1.5 rounded-lg text-xs transition-colors ${reacted.helpful ? "text-primary bg-primary/10" : "text-muted-foreground hover:bg-muted"}`}
-              >
-                <Heart className="w-3.5 h-3.5" /> {post.helpful_votes || 0}
-              </button>
-              <button
-                onClick={() => handleReact("received", "received_too_count")}
-                className={`flex items-center gap-1 px-2 py-1.5 rounded-lg text-xs transition-colors ${reacted.received ? "text-blue-600 bg-blue-50" : "text-muted-foreground hover:bg-muted"}`}
-              >
-                <ThumbsUp className="w-3.5 h-3.5" /> {post.received_too_count || 0}
-              </button>
-              <button
-                onClick={() => onSelect(post)}
-                className="flex items-center gap-1 px-2 py-1.5 rounded-lg text-xs text-muted-foreground hover:bg-muted transition-colors"
-              >
-                <MessageSquare className="w-3.5 h-3.5" /> {post.comment_count || 0}
-              </button>
-            </div>
-            <div className="flex items-center gap-2 text-[10px] text-muted-foreground">
-              <span>{post.is_anonymous ? "Anonymous" : (post.author_name || "Community Member")}</span>
-              <span>·</span>
-              <span>{post.created_date ? formatDistanceToNow(new Date(post.created_date), { addSuffix: true }) : "Recently"}</span>
-            </div>
-          </div>
-        </CardContent>
-      </Card>
-    </motion.div>
+      <div className="flex items-center justify-between pt-2 border-t border-border">
+        <div className="flex items-center gap-1">
+          <button
+            onClick={() => handleReact("helpful", "helpful_votes")}
+            className={`flex items-center gap-1 px-2 py-1 rounded-md text-xs transition-colors ${reacted.helpful ? "text-primary bg-primary/10" : "text-muted-foreground hover:bg-muted"}`}
+          >
+            <Heart className="w-3.5 h-3.5" /> {post.helpful_votes || 0}
+          </button>
+          <button
+            onClick={() => handleReact("received", "received_too_count")}
+            className={`flex items-center gap-1 px-2 py-1 rounded-md text-xs transition-colors ${reacted.received ? "text-primary bg-primary/10" : "text-muted-foreground hover:bg-muted"}`}
+          >
+            <ThumbsUp className="w-3.5 h-3.5" /> {post.received_too_count || 0}
+          </button>
+          <button
+            onClick={() => onSelect(post)}
+            className="flex items-center gap-1 px-2 py-1 rounded-md text-xs text-muted-foreground hover:bg-muted transition-colors"
+          >
+            <MessageSquare className="w-3.5 h-3.5" /> {post.comment_count || 0}
+          </button>
+        </div>
+        <div className="flex items-center gap-2 text-xs text-muted-foreground">
+          <span>{post.is_anonymous ? "Anonymous" : (post.author_name || "Community Member")}</span>
+          <span>·</span>
+          <span>{post.created_date ? formatDistanceToNow(new Date(post.created_date), { addSuffix: true }) : "Recently"}</span>
+        </div>
+      </div>
+    </div>
   );
 }
 
@@ -177,7 +149,6 @@ export default function CommunityFeed() {
 
   const { pullY, refreshing } = usePullToRefresh(() => refetch());
 
-  // Filter out blocked users' posts
   const blockedIds = new Set(blocks.map(b => b.blocked_id));
   const posts = dbPosts.filter(p => !p.created_by_id || !blockedIds.has(p.created_by_id));
 
@@ -202,15 +173,10 @@ export default function CommunityFeed() {
     <div className="max-w-4xl mx-auto px-4 pt-6 pb-12">
       <PullToRefreshIndicator pullY={pullY} refreshing={refreshing} />
       {/* Header */}
-      <div className="flex items-center justify-between mb-6">
-        <div>
-          <div className="flex items-center gap-2 mb-1">
-            <Users className="w-5 h-5 text-primary" />
-            <h1 className="text-2xl font-heading font-bold">Community Reports</h1>
-          </div>
-          <p className="text-sm text-muted-foreground">Scam reports shared by the community to help others stay safe</p>
-        </div>
-        <Button size="sm" className="gap-1.5 shrink-0" onClick={() => setShowShare(true)}>
+      <div className="mb-5">
+        <h1 className="text-2xl font-bold mb-1">Community Reports</h1>
+        <p className="text-sm text-muted-foreground mb-3">Scam reports shared by the community to help others stay safe</p>
+        <Button size="sm" className="gap-1.5" onClick={() => setShowShare(true)}>
           <Plus className="w-4 h-4" /> Share a Scam
         </Button>
       </div>
@@ -244,12 +210,11 @@ export default function CommunityFeed() {
 
       {/* Posts */}
       {isLoading ? (
-        <div className="space-y-4">
-          {[1,2,3].map(i => <div key={i} className="h-48 bg-muted/40 rounded-2xl animate-pulse" />)}
+        <div className="space-y-3">
+          {[1,2,3].map(i => <div key={i} className="h-40 bg-muted/40 rounded-md animate-pulse" />)}
         </div>
       ) : filtered.length === 0 ? (
-        <div className="text-center py-20">
-          <Users className="w-10 h-10 text-muted-foreground/30 mx-auto mb-3" />
+        <div className="text-center py-16">
           <p className="font-semibold mb-1">No reports yet</p>
           <p className="text-sm text-muted-foreground mb-4">Be the first to share a scam with the community</p>
           <Button size="sm" onClick={() => setShowShare(true)} className="gap-1.5">
@@ -257,7 +222,7 @@ export default function CommunityFeed() {
           </Button>
         </div>
       ) : (
-        <div className="space-y-4">
+        <div className="space-y-3">
           {filtered.map(post => (
             <PostCard
               key={post.id}

@@ -3,7 +3,6 @@ import React from "react";
 export default function ScamShieldScoreRing({ score }) {
   const r = 28;
   const circ = 2 * Math.PI * r;
-  const color = score >= 70 ? "#10b981" : score >= 40 ? "#f59e0b" : "#3b82f6";
   const label = score >= 70 ? "Expert" : score >= 40 ? "Aware" : "Learner";
 
   return (
@@ -13,7 +12,7 @@ export default function ScamShieldScoreRing({ score }) {
           <circle cx="32" cy="32" r={r} fill="none" stroke="hsl(var(--muted))" strokeWidth="6" />
           <circle
             cx="32" cy="32" r={r} fill="none"
-            stroke={color}
+            stroke="hsl(var(--primary))"
             strokeWidth="6"
             strokeLinecap="round"
             strokeDasharray={circ}
@@ -25,8 +24,8 @@ export default function ScamShieldScoreRing({ score }) {
           <span className="text-base font-bold leading-none">{score}</span>
         </div>
       </div>
-      <span className="text-[10px] font-semibold mt-1" style={{ color }}>{label}</span>
-      <span className="text-[9px] text-muted-foreground">ScamShield Score</span>
+      <span className="text-xs font-semibold mt-1">{label}</span>
+      <span className="text-[10px] text-muted-foreground">ScamShield Score</span>
     </div>
   );
 }

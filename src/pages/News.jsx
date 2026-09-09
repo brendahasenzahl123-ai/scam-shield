@@ -1,18 +1,13 @@
 import React, { useState, useCallback } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { AnimatePresence } from "framer-motion";
 import usePullToRefresh from "@/hooks/usePullToRefresh";
 import PullToRefreshIndicator from "@/components/ui/PullToRefreshIndicator";
-import { Card, CardContent } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import {
-  AlertTriangle, ShieldAlert, Eye, ChevronDown, ChevronUp,
-  Target, Users
-} from "lucide-react";
+import { ChevronDown, ChevronUp } from "lucide-react";
 
-const SEVERITY_CONFIG = {
-  info: { border: "border-l-blue-400", badgeCls: "bg-blue-100 text-blue-700", icon: Eye, label: "Advisory" },
-  warning: { border: "border-l-amber-400", badgeCls: "bg-amber-100 text-amber-700", icon: AlertTriangle, label: "Warning" },
-  critical: { border: "border-l-red-500", badgeCls: "bg-red-100 text-red-700", icon: ShieldAlert, label: "High Risk" },
+const RISK_LABELS = {
+  warning: "Warning",
+  critical: "High Risk",
+  info: "Advisory",
 };
 
 const FILTER_TABS = [
@@ -37,94 +32,66 @@ const ALERTS = [
   { title: "Fake Charity Scam (Disaster Relief)", category: "Financial", audience: "All", severity: "warning", desc: "Following major natural disasters or news events, fake charity websites and social media pages solicit donations that never reach victims.", target: "Compassionate donors of all ages", signs: ["Organization has no verifiable history on Charity Navigator", "Solicits donations via gift cards or wire transfer", "Website created within days of the disaster"], safe: ["Donate only through established charities verifiable on charitynavigator.org", "Search the charity name + 'scam' before donating", "Use BBB's Wise Giving Alliance to verify organizations"] },
 ];
 
-function AlertCard({ alert, index }) {
+function AlertCard({ alert }) {
   const [expanded, setExpanded] = useState(false);
-  const sev = SEVERITY_CONFIG[alert.severity] || SEVERITY_CONFIG.info;
-  const Icon = sev.icon;
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 8 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ delay: index * 0.03 }}
-    >
-      <Card className={`border-0 shadow-sm border-l-4 ${sev.border} hover:shadow-md transition-shadow`}>
-        <CardContent className="p-4">
-          <div className="flex items-start gap-3">
-            <div className={`w-8 h-8 rounded-lg flex items-center justify-center shrink-0 ${sev.badgeCls}`}>
-              <Icon className="w-4 h-4" />
-            </div>
-            <div className="flex-1 min-w-0">
-              <div className="flex items-start justify-between gap-2 mb-1.5 flex-wrap">
-                <h3 className="font-semibold text-sm leading-snug flex-1">{alert.title}</h3>
-                <Badge className={`${sev.badgeCls} text-[10px] border-0`}>{sev.label}</Badge>
+    <div className="border rounded-md p-4">
+      <div className="flex items-start justify-between gap-2 mb-1">
+        <h3 className="font-semibold text-sm leading-snug flex-1">{alert.title}</h3>
+        <span className="text-xs text-muted-foreground shrink-0">{RISK_LABELS[alert.severity] || alert.severity}</span>
+      </div>
+      <div className="flex flex-wrap gap-2 mb-2 text-xs text-muted-foreground">
+        <span>{alert.category}</span>
+        <span>·</span>
+        <span>{alert.audience}</span>
+      </div>
+      <p className="text-sm text-muted-foreground leading-relaxed">{alert.desc}</p>
+
+      <button
+        onClick={() => setExpanded(!expanded)}
+        className="flex items-center gap-1 text-xs text-primary font-medium mt-2 hover:underline"
+      >
+        {expanded ? <><ChevronUp className="w-3 h-3" /> Less</> : <><ChevronDown className="w-3 h-3" /> Warning signs & safety tips</>}
+      </button>
+
+      <AnimatePresence>
+        {expanded && (
+          <div className="mt-3 space-y-3 pt-3 border-t border-border">
+            {alert.target && (
+              <div>
+                <p className="text-xs font-semibold mb-1">Who is targeted</p>
+                <p className="text-sm text-muted-foreground">{alert.target}</p>
               </div>
-
-              <div className="flex flex-wrap gap-2 mb-2">
-                <Badge variant="outline" className="text-[10px]">{alert.category}</Badge>
-                <span className="text-[10px] text-muted-foreground flex items-center gap-1"><Users className="w-3 h-3" />{alert.audience}</span>
+            )}
+            {alert.signs?.length > 0 && (
+              <div>
+                <p className="text-xs font-semibold mb-1">Warning signs</p>
+                <ul className="space-y-1">
+                  {alert.signs.map((sign, i) => (
+                    <li key={i} className="flex items-start gap-2 text-sm">
+                      <span className="text-muted-foreground shrink-0">•</span><span>{sign}</span>
+                    </li>
+                  ))}
+                </ul>
               </div>
-
-              <p className="text-xs text-muted-foreground leading-relaxed">{alert.desc}</p>
-
-              <button
-                onClick={() => setExpanded(!expanded)}
-                className="flex items-center gap-1 text-xs text-primary font-medium mt-2 hover:underline"
-              >
-                {expanded ? <><ChevronUp className="w-3 h-3" /> Less</> : <><ChevronDown className="w-3 h-3" /> Warning signs & safety tips</>}
-              </button>
-
-              <AnimatePresence>
-                {expanded && (
-                  <motion.div
-                    initial={{ opacity: 0, height: 0 }}
-                    animate={{ opacity: 1, height: "auto" }}
-                    exit={{ opacity: 0, height: 0 }}
-                    className="overflow-hidden"
-                  >
-                    <div className="mt-3 space-y-3 pt-3 border-t border-border/50">
-                      {alert.target && (
-                        <div className="flex items-start gap-2">
-                          <Target className="w-3.5 h-3.5 text-muted-foreground mt-0.5 shrink-0" />
-                          <div>
-                            <p className="text-[10px] font-semibold uppercase tracking-wide text-muted-foreground mb-0.5">Who is targeted</p>
-                            <p className="text-xs">{alert.target}</p>
-                          </div>
-                        </div>
-                      )}
-                      {alert.signs?.length > 0 && (
-                        <div>
-                          <p className="text-[10px] font-semibold uppercase tracking-wide text-muted-foreground mb-1.5">Warning signs</p>
-                          <div className="space-y-1">
-                            {alert.signs.map((sign, i) => (
-                              <div key={i} className="flex items-start gap-2 text-xs">
-                                <span className="text-red-500 shrink-0">🚩</span><span>{sign}</span>
-                              </div>
-                            ))}
-                          </div>
-                        </div>
-                      )}
-                      {alert.safe?.length > 0 && (
-                        <div>
-                          <p className="text-[10px] font-semibold uppercase tracking-wide text-muted-foreground mb-1.5">How to stay safe</p>
-                          <div className="space-y-1">
-                            {alert.safe.map((tip, i) => (
-                              <div key={i} className="flex items-start gap-2 text-xs">
-                                <span className="text-emerald-500 shrink-0">✓</span><span>{tip}</span>
-                              </div>
-                            ))}
-                          </div>
-                        </div>
-                      )}
-                    </div>
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </div>
+            )}
+            {alert.safe?.length > 0 && (
+              <div>
+                <p className="text-xs font-semibold mb-1">How to stay safe</p>
+                <ul className="space-y-1">
+                  {alert.safe.map((tip, i) => (
+                    <li key={i} className="flex items-start gap-2 text-sm">
+                      <span className="text-primary shrink-0">✓</span><span>{tip}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
           </div>
-        </CardContent>
-      </Card>
-    </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
   );
 }
 
@@ -140,24 +107,19 @@ export default function News() {
     <div className="max-w-4xl mx-auto px-4 pt-6 pb-12">
       <PullToRefreshIndicator pullY={pullY} refreshing={refreshing} />
       <div className="mb-6">
-        <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-50 text-amber-700 text-xs font-semibold mb-3 border border-amber-100">
-          <ShieldAlert className="w-3.5 h-3.5" />
-          Safety Alerts
-        </div>
-        <h1 className="text-2xl font-heading font-bold">Common Scam Examples</h1>
+        <h1 className="text-2xl font-bold">Scam Examples</h1>
         <p className="text-sm text-muted-foreground mt-1">
-          A reference library of well-known scams and how to recognize them. These are educational
-          examples — not a live feed of active threats.
+          Examples of common scams and the signs to watch for.
         </p>
       </div>
 
       {/* Filter tabs */}
-      <div className="flex flex-wrap gap-1.5 mb-6">
+      <div className="flex flex-wrap gap-1.5 mb-5">
         {FILTER_TABS.map(tab => (
           <button
             key={tab}
             onClick={() => setActiveFilter(tab)}
-            className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-colors ${activeFilter === tab ? "bg-primary text-primary-foreground" : "bg-muted text-muted-foreground hover:bg-muted/80"}`}
+            className={`px-3 py-1.5 rounded-md text-xs font-medium transition-colors ${activeFilter === tab ? "bg-primary text-primary-foreground" : "bg-muted text-muted-foreground hover:bg-muted/80"}`}
           >
             {tab}
           </button>
@@ -165,8 +127,8 @@ export default function News() {
       </div>
 
       <div className="space-y-3">
-        {filtered.map((alert, i) => (
-          <AlertCard key={alert.title} alert={alert} index={i} />
+        {filtered.map((alert) => (
+          <AlertCard key={alert.title} alert={alert} />
         ))}
       </div>
     </div>
