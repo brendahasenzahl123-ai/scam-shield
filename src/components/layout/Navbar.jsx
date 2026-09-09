@@ -8,7 +8,7 @@ const primaryNav = [
   { to: "/", label: "Scan", icon: Search },
   { to: "/community", label: "Community", icon: MessageCircle },
   { to: "/learn", label: "Learn", icon: BookOpen },
-  { to: "/news", label: "Alerts", icon: Newspaper },
+  { to: "/alerts", label: "Alerts", icon: Newspaper },
 ];
 
 const moreNav = [

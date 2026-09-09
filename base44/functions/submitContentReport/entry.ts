@@ -66,8 +66,6 @@ function buildEmailBody(report, user) {
     "This report should be reviewed promptly, ideally within 24 hours.",
     "Review it in the ScamShield Admin dashboard under Reports.",
     "",
-    `Reply to this email or contact ${SUPPORT_EMAIL} for questions about this report.`,
-    "",
     "— ScamShield Moderation System",
   ];
   return lines.join("\n");

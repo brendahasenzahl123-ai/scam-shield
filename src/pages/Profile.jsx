@@ -8,7 +8,6 @@ import { Input } from "@/components/ui/input";
 import { User, Edit2, Check, X, BookOpen, Trash2 } from "lucide-react";
 import { format } from "date-fns";
 import { Link } from "react-router-dom";
-import ScamShieldScoreRing from "@/components/profile/ScamShieldScoreRing";
 import SettingsSection from "@/components/profile/SettingsSection";
 import {
   AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent,
@@ -224,9 +223,6 @@ export default function Profile() {
                 </>
               )}
             </div>
-            <div className="shrink-0">
-              <ScamShieldScoreRing score={score} />
-            </div>
           </div>
         </CardContent>
       </Card>
@@ -240,24 +236,6 @@ export default function Profile() {
           </div>
         ))}
       </div>
-
-      {/* Badges */}
-      <Card className="border shadow-sm">
-        <CardContent className="p-4">
-          <h2 className="text-sm font-semibold mb-3 px-1">Badges Earned ({badges.length})</h2>
-          {badges.length === 0 ? (
-            <p className="text-sm text-muted-foreground px-1">Complete your first analysis or share a report to earn badges.</p>
-          ) : (
-            <div className="flex flex-wrap gap-2">
-              {badges.map(b => (
-                <div key={b.id} className="flex items-center gap-1.5 px-3 py-1.5 rounded-md border text-xs font-medium">
-                  <span>{b.icon}</span> {b.label}
-                </div>
-              ))}
-            </div>
-          )}
-        </CardContent>
-      </Card>
 
       {/* Learning Progress */}
       <Card className="border shadow-sm">

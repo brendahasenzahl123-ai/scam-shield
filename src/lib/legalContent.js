@@ -4,8 +4,6 @@
  * Apple App Store Review Guideline 1.2 compliance.
  */
 
-export const SUPPORT_EMAIL = "scamshieldsafety@gmail.com";
-
 export const TERMS_OF_USE = `
 # Terms of Use / EULA
 
@@ -70,10 +68,6 @@ ScamShield is not liable for damages arising from the use of the app or reliance
 ## 10. Changes to Terms
 
 ScamShield may update these Terms at any time. Continued use after changes constitutes acceptance.
-
-## 11. Contact
-
-For questions about these Terms, contact: [${SUPPORT_EMAIL}](mailto:${SUPPORT_EMAIL})
 `;
 
 export const PRIVACY_POLICY = `
@@ -109,7 +103,7 @@ Your data is retained while your account is active. You can request account dele
 
 ## 6. Your Rights
 
-You can access, correct, or delete your personal information. Contact [${SUPPORT_EMAIL}](mailto:${SUPPORT_EMAIL}) for data requests.
+You can access, correct, or delete your personal information.
 
 ## 7. Children's Privacy
 
@@ -122,10 +116,6 @@ We implement reasonable security measures to protect your data. No method of tra
 ## 9. Changes to This Policy
 
 We may update this Privacy Policy at any time. Continued use after changes constitutes acceptance.
-
-## 10. Contact
-
-For privacy questions, contact: [${SUPPORT_EMAIL}](mailto:${SUPPORT_EMAIL})
 `;
 
 export const COMMUNITY_STANDARDS = `
@@ -197,10 +187,6 @@ You can block any user whose content you do not wish to see. Blocked users' cont
 ## Educational Content
 
 Discussions about scams, fraud techniques, and how to recognize them are encouraged. Using scam-related terminology in an educational context is NOT a violation of these standards.
-
-## Contact
-
-To report a violation or ask about a moderation decision, contact: [${SUPPORT_EMAIL}](mailto:${SUPPORT_EMAIL})
 `;
 
 export const REPORT_REASONS = [

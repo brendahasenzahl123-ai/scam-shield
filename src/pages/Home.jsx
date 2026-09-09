@@ -137,7 +137,7 @@ export default function Home() {
   return (
     <div className="max-w-2xl mx-auto px-4 pb-12">
       {/* Hero */}
-      <div className="text-center py-12">
+      <div className="text-center py-8">
         <h1 className="text-3xl font-bold tracking-tight mb-4 leading-tight">
           Spot Scams.<br />Protect Each Other.
         </h1>
@@ -154,16 +154,6 @@ export default function Home() {
             </Button>
           </Link>
         </div>
-      </div>
-
-      {/* What you can do */}
-      <div className="mb-8">
-        <h2 className="text-base font-semibold mb-3">What you can do</h2>
-        <ul className="border rounded-md divide-y">
-          <li className="flex items-center gap-3 p-3 text-sm">Scan suspicious content</li>
-          <li className="flex items-center gap-3 p-3 text-sm">Review warning signs</li>
-          <li className="flex items-center gap-3 p-3 text-sm">Share reports</li>
-        </ul>
       </div>
 
       {/* How it works */}

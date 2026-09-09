@@ -7,7 +7,7 @@ import ErrorBoundary from "@/components/ErrorBoundary";
 import { Shield, ChevronLeft } from "lucide-react";
 
 // Tab root paths — show brand logo header
-const ROOT_PATHS = ["/", "/community", "/learn", "/news", "/profile"];
+const ROOT_PATHS = ["/", "/community", "/learn", "/alerts", "/profile"];
 
 // Map sub-pages to a readable title and their parent tab
 const SUB_PAGE_TITLES = {

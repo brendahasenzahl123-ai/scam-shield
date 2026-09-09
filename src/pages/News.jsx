@@ -114,12 +114,12 @@ export default function News() {
       </div>
 
       {/* Filter tabs */}
-      <div className="flex flex-wrap gap-1.5 mb-5">
+      <div className="flex gap-1.5 mb-5 overflow-x-auto md:flex-wrap md:overflow-visible pb-1 -mx-4 px-4 md:mx-0 md:px-0">
         {FILTER_TABS.map(tab => (
           <button
             key={tab}
             onClick={() => setActiveFilter(tab)}
-            className={`px-3 py-1.5 rounded-md text-xs font-medium transition-colors ${activeFilter === tab ? "bg-primary text-primary-foreground" : "bg-muted text-muted-foreground hover:bg-muted/80"}`}
+            className={`px-3 py-1.5 rounded-md text-xs font-medium transition-colors shrink-0 whitespace-nowrap ${activeFilter === tab ? "bg-primary text-primary-foreground" : "bg-muted text-muted-foreground hover:bg-muted/80"}`}
           >
             {tab}
           </button>

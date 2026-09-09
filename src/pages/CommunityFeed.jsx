@@ -216,10 +216,7 @@ export default function CommunityFeed() {
       ) : filtered.length === 0 ? (
         <div className="text-center py-16">
           <p className="font-semibold mb-1">No reports yet</p>
-          <p className="text-sm text-muted-foreground mb-4">Be the first to share a scam with the community</p>
-          <Button size="sm" onClick={() => setShowShare(true)} className="gap-1.5">
-            <Plus className="w-4 h-4" /> Share a Scam Report
-          </Button>
+          <p className="text-sm text-muted-foreground">Be the first to share a scam with the community.</p>
         </div>
       ) : (
         <div className="space-y-3">

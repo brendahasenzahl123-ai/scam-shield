@@ -88,7 +88,7 @@ const AuthenticatedApp = () => {
       <Route element={<AppLayout />}>
         <Route path="/" element={<Suspense fallback={<PageLoader />}><PageTransition><Home /></PageTransition></Suspense>} />
         <Route path="/learn" element={<Suspense fallback={<PageLoader />}><PageTransition><Learn /></PageTransition></Suspense>} />
-        <Route path="/news" element={<Suspense fallback={<PageLoader />}><PageTransition><News /></PageTransition></Suspense>} />
+        <Route path="/alerts" element={<Suspense fallback={<PageLoader />}><PageTransition><News /></PageTransition></Suspense>} />
         <Route path="/dashboard" element={<Suspense fallback={<PageLoader />}><PageTransition><Dashboard /></PageTransition></Suspense>} />
         <Route path="/admin" element={<Suspense fallback={<PageLoader />}><PageTransition><Admin /></PageTransition></Suspense>} />
         <Route path="/community" element={<Suspense fallback={<PageLoader />}><PageTransition><CommunityFeed /></PageTransition></Suspense>} />

@@ -6,7 +6,7 @@ const TABS = [
   { label: "Scan", path: "/", icon: Search },
   { label: "Community", path: "/community", icon: Users },
   { label: "Learn", path: "/learn", icon: BookOpen },
-  { label: "Alerts", path: "/news", icon: Bell },
+  { label: "Alerts", path: "/alerts", icon: Bell },
   { label: "Profile", path: "/profile", icon: User },
 ];
 
